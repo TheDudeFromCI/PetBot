@@ -1,7 +1,6 @@
 package me.ci;
 
 import java.io.File;
-import java.util.UUID;
 
 public class UploadCommand implements Command
 {
@@ -24,7 +23,7 @@ public class UploadCommand implements Command
 		File pictures = new File(dir, "pictures");
 		for (int i = 0; i < com.getAttachedFileCount(); i++)
 		{
-			File file = new File(pictures, UUID.randomUUID().toString());
+			File file = new File(pictures, com.getAttachmentFileName(i));
 			com.downloadFile(file, i);
 		}
 

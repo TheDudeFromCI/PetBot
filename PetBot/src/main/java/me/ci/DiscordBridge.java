@@ -55,5 +55,10 @@ public class DiscordBridge implements DiscordAPI
 		{
 			_attachments.get(index).download(file);
 		}
+		
+		public String getAttachmentName(int index)
+		{
+			return _attachments.get(index).getFileName();
+		}
 	}
 }

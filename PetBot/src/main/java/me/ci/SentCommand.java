@@ -46,4 +46,9 @@ public class SentCommand
 	{
 		_channel.downloadAttachment(file, index);
 	}
+	
+	public String getAttachmentFileName(int index)
+	{
+		return _channel.getAttachmentName(index);
+	}
 }
