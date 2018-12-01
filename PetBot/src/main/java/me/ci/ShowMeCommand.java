@@ -46,8 +46,10 @@ public class ShowMeCommand implements Command
 				com.sendMessage(sb.toString());
 				return;
 			}
+			
 		}
 		
-		com.sendMessage("Unknown arguments. Please use as:\n```\n!showme\n!showme list\n```");
+		com.sendMessage("Unknown arguments. Please use as:\n```\n!showme\n!showme list\n"
+				+ "!showme [image]```");
 	}
 }
