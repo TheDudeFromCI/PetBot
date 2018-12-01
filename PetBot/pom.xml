@@ -5,6 +5,11 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>PetBot</name>
 	<description>A bot that hosts the information for different digital pets and interactions with those bots.</description>
+	
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
   
   	<repositories>
 		<repository>
@@ -19,6 +24,16 @@
     		<groupId>net.dv8tion</groupId>
     		<artifactId>JDA</artifactId>
     		<version>3.8.1_437</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.11.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.11.1</version>
 		</dependency>
 	</dependencies>
 </project>
