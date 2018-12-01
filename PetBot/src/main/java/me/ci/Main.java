@@ -14,11 +14,12 @@ public class Main
 {
 	public static void main(String[] args) throws LoginException, InterruptedException, IOException
 	{
+		CommandHandler commandHandler = new CommandHandler();
+
 		JDA jda = new JDABuilder(getToken())
-	            .addEventListener(new EventHandler())
+	            .addEventListener(new EventHandler(commandHandler))
 	            .build();
 
-        // optionally block until JDA is ready
         jda.awaitReady();
 	}
 	
