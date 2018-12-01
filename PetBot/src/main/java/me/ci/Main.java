@@ -15,6 +15,7 @@ public class Main
 	public static void main(String[] args) throws LoginException, InterruptedException, IOException
 	{
 		CommandHandler commandHandler = new CommandHandler();
+		commandHandler.registerCommand(new ShowMeCommand());
 
 		JDA jda = new JDABuilder(getToken())
 	            .addEventListener(new EventHandler(commandHandler))
@@ -25,7 +26,7 @@ public class Main
 	
 	private static String getToken() throws IOException
 	{
-		File file = new File("C:\\Users\\TheDudeFromCI\\Documents\\pet_bot_token.txt");
+		File file = new File("C:\\Users\\TheDudeFromCI\\Documents\\PetBot\\pet_bot_token.txt");
 		
 		try (BufferedReader in = new BufferedReader(new FileReader(file)))
 		{

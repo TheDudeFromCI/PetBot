@@ -3,9 +3,8 @@ package me.ci;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class CommandHandler
@@ -22,20 +21,25 @@ public class CommandHandler
 		for (Command c : _commands)
 			if (c.getName().equals(com.getCommand()))
 			{
+				System.out.println("  Running command.");
+
 				c.run(com);
 				return;
 			}
+		System.out.println("  Command not found.");
 	}
 	
 	public void handle(MessageReceivedEvent e)
 	{
 		if (e.getAuthor().isBot())
 			return;
-		if (e.getChannelType() != ChannelType.TEXT)
-			return;
-		
+
+		System.out.println("Received message.");
+
 		Message message = e.getMessage();
 		String content = message.getContentRaw();
+
+		System.out.println("  Message: " + content);
 		
 		if (content.matches("[!][a-z]+.*"))
 		{
@@ -47,8 +51,10 @@ public class CommandHandler
 				args = new String[0];
 			else
 				args = Arrays.copyOfRange(args, 1, args.length);
+
+			System.out.println("  Command: " + commandName);
 			
-			SentCommand com = new SentCommand((TextChannel) e.getChannel(), commandName, args);
+			SentCommand com = new SentCommand((MessageChannel) e.getChannel(), commandName, args);
 			handle(com);
 		}
 	}

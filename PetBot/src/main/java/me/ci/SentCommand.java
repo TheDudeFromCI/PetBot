@@ -1,14 +1,16 @@
 package me.ci;
 
-import net.dv8tion.jda.core.entities.TextChannel;
+import java.io.File;
+
+import net.dv8tion.jda.core.entities.MessageChannel;
 
 public class SentCommand
 {
-	private TextChannel _channel;
+	private MessageChannel _channel;
 	private String _command;
 	private String[] _args;
 	
-	public SentCommand(TextChannel channel, String command, String[] args)
+	public SentCommand(MessageChannel channel, String command, String[] args)
 	{
 		_channel = channel;
 		_command = command;
@@ -17,7 +19,7 @@ public class SentCommand
 	
 	public void sendMessage(String message)
 	{
-		_channel.sendMessage(message);
+		_channel.sendMessage(message).queue();;
 	}
 	
 	public String getCommand()
@@ -28,5 +30,10 @@ public class SentCommand
 	public String[] getArguments()
 	{
 		return _args;
+	}
+	
+	public void uploadFile(File file)
+	{
+		_channel.sendFile(file).queue();
 	}
 }
