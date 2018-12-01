@@ -47,9 +47,102 @@ public class ShowMeCommand implements Command
 				return;
 			}
 			
+			if (com.getArguments()[0].equals("help"))
+			{
+				StringBuilder sb = new StringBuilder();
+				sb.append("Available commands:\n```\n");
+				
+				sb.append("!showme\n");
+				sb.append("!showme list");
+				sb.append("!showme help");
+				sb.append("!showme [image]");
+				sb.append("!showme remove [image]");
+				sb.append("!showme rename [image] [new name]");
+				
+				sb.append("```");
+				
+				com.sendMessage(sb.toString());
+				return;
+			}
+
+			File[] files = imageFolder.listFiles();
+			String toShow = com.getArguments()[0];
+			
+			for (int i = 0; i < files.length; i++)
+			{
+				if (files[i].getName().equals(toShow))
+				{
+					com.sendMessage("Here you go!");
+					com.uploadFile(files[i]);
+					return;
+				}
+			}
+
+			com.sendMessage("Image not found!");
+			return;
 		}
 		
-		com.sendMessage("Unknown arguments. Please use as:\n```\n!showme\n!showme list\n"
-				+ "!showme [image]```");
+		if (com.getArguments().length == 2)
+		{
+			if (com.getArguments()[0].equals("remove"))
+			{
+				File[] files = imageFolder.listFiles();
+				String toDelete = com.getArguments()[1];
+				
+				for (int i = 0; i < files.length; i++)
+				{
+					if (files[i].getName().equals(toDelete))
+					{
+						files[i].delete();
+						
+						com.sendMessage("Image removed from database.");
+						return;
+					}
+				}
+				
+				com.sendMessage("Image not found!");
+				return;
+			}
+		}
+		
+		if (com.getArguments().length == 3)
+		{
+			if (com.getArguments()[0].equals("rename"))
+			{
+				File[] files = imageFolder.listFiles();
+				String toRename = com.getArguments()[1];
+				String name = com.getArguments()[2];
+				
+				for (int i = 0; i < files.length; i++)
+				{
+					if (files[i].getName().equals(toRename))
+					{
+						File newName = new File(files[i].getParentFile(), name);
+						files[i].renameTo(newName);
+						
+						com.sendMessage("Image has been renamed.");
+						return;
+					}
+				}
+				
+				com.sendMessage("Image not found!");
+				return;
+			}
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("Unable to parse input parameters.\n");
+		sb.append("Available commands:\n```\n");
+		
+		sb.append("!showme\n");
+		sb.append("!showme list");
+		sb.append("!showme help");
+		sb.append("!showme [image]");
+		sb.append("!showme remove [image]");
+		sb.append("!showme rename [image] [new name]");
+		
+		sb.append("```");
+		
+		com.sendMessage(sb.toString());
 	}
 }
