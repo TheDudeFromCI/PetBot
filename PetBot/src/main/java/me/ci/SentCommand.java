@@ -36,4 +36,14 @@ public class SentCommand
 	{
 		_channel.sendFile(file);
 	}
+	
+	public int getAttachedFileCount()
+	{
+		return _channel.getAttachmentCount();
+	}
+	
+	public void downloadFile(File file, int index)
+	{
+		_channel.downloadAttachment(file, index);
+	}
 }

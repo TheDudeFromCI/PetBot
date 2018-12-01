@@ -2,9 +2,11 @@ package me.ci;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import me.ci.DiscordBridge.DiscordChannelBridge;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.Message.Attachment;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class CommandHandler
@@ -55,7 +57,9 @@ public class CommandHandler
 
 			System.out.println("  Command: " + commandName);
 			
-			DiscordChannelBridge channel = new DiscordChannelBridge(e.getChannel());
+			List<Attachment> attachments = message.getAttachments();
+			DiscordChannelBridge channel = new DiscordChannelBridge(e.getChannel(), attachments);
+
 			SentCommand com = new SentCommand(channel, commandName, args);
 			handle(com);
 		}
