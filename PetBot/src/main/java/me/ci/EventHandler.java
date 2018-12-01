@@ -2,7 +2,6 @@ package me.ci;
 
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.ReadyEvent;
-import net.dv8tion.jda.core.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.EventListener;
 
@@ -23,12 +22,6 @@ public class EventHandler implements EventListener
         	return;
         }
         
-        if (event instanceof GuildReadyEvent)
-        {
-        	handleGuildReady((GuildReadyEvent) event);
-        	return;
-        }
-        
         if (event instanceof MessageReceivedEvent)
         {
         	_commandHandler.handle((MessageReceivedEvent) event);
@@ -39,10 +32,5 @@ public class EventHandler implements EventListener
 	private void handleOnReady()
 	{
         System.out.println("API is ready!");
-	}
-	
-	private void handleGuildReady(GuildReadyEvent e)
-	{
-		e.getGuild().getDefaultChannel().sendMessage("Bot is connected.");
 	}
 }
