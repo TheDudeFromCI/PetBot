@@ -14,6 +14,7 @@ public class Main
 		CommandHandler commandHandler = new CommandHandler();
 		commandHandler.registerCommand(new ShowMeCommand());
 		commandHandler.registerCommand(new UploadCommand());
+		commandHandler.registerCommand(new ReloadCommand());
 	
 		String token = getToken();
 		EventHandler eventHandler = new EventHandler(commandHandler);
