@@ -53,11 +53,11 @@ public class ShowMeCommand implements Command
 				sb.append("Available commands:\n```\n");
 				
 				sb.append("!showme\n");
-				sb.append("!showme list");
-				sb.append("!showme help");
-				sb.append("!showme [image]");
-				sb.append("!showme remove [image]");
-				sb.append("!showme rename [image] [new name]");
+				sb.append("!showme list\n");
+				sb.append("!showme help\n");
+				sb.append("!showme [image]\n");
+				sb.append("!showme remove [image]\n");
+				sb.append("!showme rename [image] [new name]\n");
 				
 				sb.append("```");
 				
@@ -135,11 +135,11 @@ public class ShowMeCommand implements Command
 		sb.append("Available commands:\n```\n");
 		
 		sb.append("!showme\n");
-		sb.append("!showme list");
-		sb.append("!showme help");
-		sb.append("!showme [image]");
-		sb.append("!showme remove [image]");
-		sb.append("!showme rename [image] [new name]");
+		sb.append("!showme list\n");
+		sb.append("!showme help\n");
+		sb.append("!showme [image]\n");
+		sb.append("!showme remove [image]\n");
+		sb.append("!showme rename [image] [new name]\n");
 		
 		sb.append("```");
 		
