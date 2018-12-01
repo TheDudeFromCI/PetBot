@@ -8,10 +8,10 @@ import java.io.IOException;
 import javax.security.auth.login.LoginException;
 
 import me.ci.commands.CommandHandler;
-import me.ci.commands.ReloadCommand;
-import me.ci.commands.ShowMeCommand;
-import me.ci.commands.UpdateCommand;
-import me.ci.commands.UploadCommand;
+import me.ci.commands.list.ReloadCommand;
+import me.ci.commands.list.ShowMeCommand;
+import me.ci.commands.list.UpdateCommand;
+import me.ci.commands.list.UploadCommand;
 
 public class Main
 {

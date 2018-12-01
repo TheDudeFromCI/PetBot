@@ -1,6 +1,9 @@
-package me.ci.commands;
+package me.ci.commands.list;
 
 import java.io.File;
+
+import me.ci.commands.Command;
+import me.ci.commands.CommandEvent;
 
 public class UpdateCommand implements Command
 {

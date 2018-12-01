@@ -1,4 +1,7 @@
-package me.ci.commands;
+package me.ci.commands.list;
+
+import me.ci.commands.Command;
+import me.ci.commands.CommandEvent;
 
 public class ReloadCommand implements Command
 {
