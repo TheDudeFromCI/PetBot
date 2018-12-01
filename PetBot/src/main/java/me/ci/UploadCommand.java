@@ -27,5 +27,7 @@ public class UploadCommand implements Command
 			File file = new File(pictures, UUID.randomUUID().toString());
 			com.downloadFile(file, i);
 		}
+
+		com.sendMessage("Uploaded attachments.");
 	}
 }
