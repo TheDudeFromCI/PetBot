@@ -7,21 +7,24 @@ import java.io.IOException;
 
 import javax.security.auth.login.LoginException;
 
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.JDABuilder;
-
 public class Main
 {
 	public static void main(String[] args) throws LoginException, InterruptedException, IOException
 	{
 		CommandHandler commandHandler = new CommandHandler();
 		commandHandler.registerCommand(new ShowMeCommand());
+	
+		String token = getToken();
+		EventHandler eventHandler = new EventHandler(commandHandler);
 
-		JDA jda = new JDABuilder(getToken())
-	            .addEventListener(new EventHandler(commandHandler))
-	            .build();
-
-        jda.awaitReady();
+		DiscordAPI discord;
+		
+		if (args.length > 0 && args[0].equals("noconnect"))
+			discord = null;
+		else
+			discord = new DiscordBridge();
+		
+		discord.connect(token, eventHandler);
 	}
 	
 	private static String getToken() throws IOException

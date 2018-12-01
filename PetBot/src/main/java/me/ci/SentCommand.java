@@ -2,15 +2,15 @@ package me.ci;
 
 import java.io.File;
 
-import net.dv8tion.jda.core.entities.MessageChannel;
+import me.ci.DiscordBridge.DiscordChannelBridge;
 
 public class SentCommand
 {
-	private MessageChannel _channel;
+	private DiscordChannelBridge _channel;
 	private String _command;
 	private String[] _args;
 	
-	public SentCommand(MessageChannel channel, String command, String[] args)
+	public SentCommand(DiscordChannelBridge channel, String command, String[] args)
 	{
 		_channel = channel;
 		_command = command;
@@ -19,7 +19,7 @@ public class SentCommand
 	
 	public void sendMessage(String message)
 	{
-		_channel.sendMessage(message).queue();;
+		_channel.sendMessage(message);
 	}
 	
 	public String getCommand()
@@ -34,6 +34,6 @@ public class SentCommand
 	
 	public void uploadFile(File file)
 	{
-		_channel.sendFile(file).queue();
+		_channel.sendFile(file);
 	}
 }

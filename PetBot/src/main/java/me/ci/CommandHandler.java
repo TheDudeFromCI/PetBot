@@ -3,8 +3,8 @@ package me.ci;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import me.ci.DiscordBridge.DiscordChannelBridge;
 import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class CommandHandler
@@ -55,7 +55,8 @@ public class CommandHandler
 
 			System.out.println("  Command: " + commandName);
 			
-			SentCommand com = new SentCommand((MessageChannel) e.getChannel(), commandName, args);
+			DiscordChannelBridge channel = new DiscordChannelBridge(e.getChannel());
+			SentCommand com = new SentCommand(channel, commandName, args);
 			handle(com);
 		}
 	}
