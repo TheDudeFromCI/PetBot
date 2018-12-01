@@ -13,7 +13,9 @@ public class ShowMeCommand implements Command
 	@Override
 	public void run(SentCommand com)
 	{
-		File imageFolder = new File("C:\\Users\\TheDudeFromCI\\Documents\\PetBot\\pictures");
+		String dir = System.getProperty("user.dir");
+		
+		File imageFolder = new File(dir, "pictures");
 		File[] files = imageFolder.listFiles();
 		
 		int randomIndex = (int)(Math.random() * files.length);

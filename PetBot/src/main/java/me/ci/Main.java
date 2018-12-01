@@ -29,7 +29,8 @@ public class Main
 	
 	private static String getToken() throws IOException
 	{
-		File file = new File("C:\\Users\\TheDudeFromCI\\Documents\\PetBot\\pet_bot_token.txt");
+		String dir = System.getProperty("user.dir");
+		File file = new File(dir, "token.txt");
 		
 		try (BufferedReader in = new BufferedReader(new FileReader(file)))
 		{
