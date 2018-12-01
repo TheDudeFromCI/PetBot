@@ -27,6 +27,7 @@ public class CommandHandler
 				return;
 			}
 		System.out.println("  Command not found.");
+		com.sendMessage("Command not found!");
 	}
 	
 	public void handle(MessageReceivedEvent e)
