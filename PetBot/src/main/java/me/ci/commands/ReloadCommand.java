@@ -1,4 +1,4 @@
-package me.ci;
+package me.ci.commands;
 
 public class ReloadCommand implements Command
 {
@@ -9,7 +9,7 @@ public class ReloadCommand implements Command
 	}
 
 	@Override
-	public void run(SentCommand com)
+	public void run(CommandEvent com)
 	{
 		com.sendMessage("Reloading PetBot.");
 		System.exit(0);

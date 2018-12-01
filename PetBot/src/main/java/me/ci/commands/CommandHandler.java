@@ -1,4 +1,4 @@
-package me.ci;
+package me.ci.commands;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +18,7 @@ public class CommandHandler
 		_commands.add(command);
 	}
 	
-	public void handle(SentCommand com)
+	public void handle(CommandEvent com)
 	{
 		for (Command c : _commands)
 			if (c.getName().equals(com.getCommand()))
@@ -60,7 +60,7 @@ public class CommandHandler
 			List<Attachment> attachments = message.getAttachments();
 			DiscordChannelBridge channel = new DiscordChannelBridge(e.getChannel(), attachments);
 
-			SentCommand com = new SentCommand(channel, commandName, args);
+			CommandEvent com = new CommandEvent(channel, commandName, args);
 			handle(com);
 		}
 	}

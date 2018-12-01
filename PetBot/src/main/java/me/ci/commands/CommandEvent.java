@@ -1,16 +1,16 @@
-package me.ci;
+package me.ci.commands;
 
 import java.io.File;
 
 import me.ci.DiscordBridge.DiscordChannelBridge;
 
-public class SentCommand
+public class CommandEvent
 {
 	private DiscordChannelBridge _channel;
 	private String _command;
 	private String[] _args;
 	
-	public SentCommand(DiscordChannelBridge channel, String command, String[] args)
+	public CommandEvent(DiscordChannelBridge channel, String command, String[] args)
 	{
 		_channel = channel;
 		_command = command;

@@ -7,6 +7,12 @@ import java.io.IOException;
 
 import javax.security.auth.login.LoginException;
 
+import me.ci.commands.CommandHandler;
+import me.ci.commands.ReloadCommand;
+import me.ci.commands.ShowMeCommand;
+import me.ci.commands.UpdateCommand;
+import me.ci.commands.UploadCommand;
+
 public class Main
 {
 	public static void main(String[] args) throws LoginException, InterruptedException, IOException

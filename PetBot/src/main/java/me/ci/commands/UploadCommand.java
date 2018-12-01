@@ -1,4 +1,4 @@
-package me.ci;
+package me.ci.commands;
 
 import java.io.File;
 
@@ -11,7 +11,7 @@ public class UploadCommand implements Command
 	}
 
 	@Override
-	public void run(SentCommand com)
+	public void run(CommandEvent com)
 	{
 		if (com.getAttachedFileCount() == 0)
 		{

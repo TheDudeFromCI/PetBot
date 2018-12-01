@@ -1,5 +1,6 @@
 package me.ci;
 
+import me.ci.commands.CommandHandler;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.ReadyEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
