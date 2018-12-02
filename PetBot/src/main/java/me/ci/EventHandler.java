@@ -10,7 +10,7 @@ import net.dv8tion.jda.core.hooks.EventListener;
 public class EventHandler implements EventListener
 {
 	private CommandHandler _commandHandler;
-	
+
 	public EventHandler(CommandHandler commandHandler)
 	{
 		_commandHandler = commandHandler;
@@ -18,21 +18,21 @@ public class EventHandler implements EventListener
 
 	public void onEvent(Event event)
 	{
-        if (event instanceof ReadyEvent)
-        {
-            System.out.println("API is ready!");
-        	return;
-        }
-        
-        if (event instanceof MessageReceivedEvent)
-        {
-        	_commandHandler.handle((MessageReceivedEvent) event);
-        	return;
-        }
-        
-        if (event instanceof DisconnectEvent)
-        {
-        	System.exit(0);
-        }
+		if (event instanceof ReadyEvent)
+		{
+			System.out.println("API is ready!");
+			return;
+		}
+
+		if (event instanceof MessageReceivedEvent)
+		{
+			_commandHandler.handle((MessageReceivedEvent) event);
+			return;
+		}
+
+		if (event instanceof DisconnectEvent)
+		{
+			System.exit(0);
+		}
 	}
 }
