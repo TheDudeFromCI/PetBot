@@ -51,4 +51,20 @@ public class CommandEvent
 	{
 		return _channel.getAttachmentName(index);
 	}
+	
+	public void sendError(String message, Throwable error)
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append(message).append("\n");
+		sb.append("```\n");
+		
+		sb.append("Error: ").append(error.getMessage()).append("\n");
+		
+		for (StackTraceElement e : error.getStackTrace())
+			sb.append("  at ").append(e.getFileName()).append(".").append(e.getMethodName())
+			.append("(line ").append(e.getLineNumber()).append(")\n");
+		
+		sb.append("```");
+		sendMessage(sb.toString());
+	}
 }
