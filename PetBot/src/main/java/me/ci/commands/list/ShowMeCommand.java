@@ -104,7 +104,9 @@ public class ShowMeCommand implements Command
 			File[] files = imageFolder.listFiles();
 			
 			StringBuilder sb = new StringBuilder();
-			sb.append("Currently uploaded files:\n```");
+			sb.append("Currently uploaded files:");
+			sb.append(" (").append(files.length).append(")");
+			sb.append("\n```");
 			
 			for (int i = 0; i < files.length; i++)
 				sb.append(files[i].getName()).append("\n");
