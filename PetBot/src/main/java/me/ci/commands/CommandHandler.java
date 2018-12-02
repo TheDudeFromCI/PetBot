@@ -62,6 +62,11 @@ public class CommandHandler
 		com.sendMessage("Command not found!");
 	}
 	
+	public ArrayList<Command> getCommands()
+	{
+		return _commands;
+	}
+	
 	public void handle(MessageReceivedEvent e)
 	{
 		if (e.getAuthor().isBot())

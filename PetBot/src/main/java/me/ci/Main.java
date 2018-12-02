@@ -8,6 +8,7 @@ import java.io.IOException;
 import javax.security.auth.login.LoginException;
 
 import me.ci.commands.CommandHandler;
+import me.ci.commands.list.HelpCommand;
 import me.ci.commands.list.ReloadCommand;
 import me.ci.commands.list.ShowMeCommand;
 import me.ci.commands.list.UpdateCommand;
@@ -22,6 +23,7 @@ public class Main
 		commandHandler.registerCommand(new UploadCommand());
 		commandHandler.registerCommand(new ReloadCommand());
 		commandHandler.registerCommand(new UpdateCommand());
+		commandHandler.registerCommand(new HelpCommand(commandHandler));
 	
 		String token = getToken();
 
