@@ -79,7 +79,7 @@ public class HelpCommand implements Command, Subcommand
 		
 		for (Subcommand sub : command.getSubcommands())
 		{
-			sb.append(command.getName());
+			sb.append(command.getName()).append(' ');
 			
 			for (int i = 0; i < sub.getArgumentCount(); i++)
 				sb.append(sub.getArgumentDisplay(i)).append(' ');

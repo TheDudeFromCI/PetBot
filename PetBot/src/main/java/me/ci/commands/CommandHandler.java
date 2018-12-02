@@ -47,7 +47,7 @@ public class CommandHandler
 				
 				for (Subcommand sub : c.getSubcommands())
 				{
-					sb.append(c.getName());
+					sb.append(c.getName()).append(' ');
 					
 					for (int i = 0; i < sub.getArgumentCount(); i++)
 						sb.append(sub.getArgumentDisplay(i)).append(' ');
