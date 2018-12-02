@@ -63,7 +63,7 @@ public class HelpCommand implements Command
 			sb.append("Available commands:\n```\n");
 
 			for (Command c : _commandHandler.getCommands())
-				sb.append("!").append(c.getName()).append("\n");
+				sb.append(c.getName()).append("\n");
 			
 			sb.append("```");
 			
