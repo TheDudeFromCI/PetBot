@@ -10,11 +10,9 @@ import net.dv8tion.jda.core.hooks.EventListener;
 public class EventHandler implements EventListener
 {
 	private CommandHandler _commandHandler;
-	private DiscordAPI _discordApi;
 	
-	public EventHandler(DiscordAPI discordApi, CommandHandler commandHandler)
+	public EventHandler(CommandHandler commandHandler)
 	{
-		_discordApi = discordApi;
 		_commandHandler = commandHandler;
 	}
 
@@ -34,16 +32,7 @@ public class EventHandler implements EventListener
         
         if (event instanceof DisconnectEvent)
         {
-        	try
-        	{
-				_discordApi.reconnect();
-			}
-        	catch (Exception e)
-        	{
-				e.printStackTrace();
-				System.exit(1);
-			}
-        	return;
+        	System.exit(0);
         }
 	}
 }

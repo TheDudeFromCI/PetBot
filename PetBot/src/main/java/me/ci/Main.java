@@ -34,7 +34,7 @@ public class Main
 		else
 			discord = new DiscordBridge();
 		
-		EventHandler eventHandler = new EventHandler(discord, commandHandler);
+		EventHandler eventHandler = new EventHandler(commandHandler);
 		discord.connect(token, eventHandler);
 	}
 	
