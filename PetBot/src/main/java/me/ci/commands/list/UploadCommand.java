@@ -2,10 +2,10 @@ package me.ci.commands.list;
 
 import java.io.File;
 
-import me.ci.commands.Command;
+import me.ci.commands.BasicCommandBase;
 import me.ci.commands.CommandEvent;
 
-public class UploadCommand implements Command
+public class UploadCommand extends BasicCommandBase
 {
 	@Override
 	public String getName()
@@ -31,5 +31,11 @@ public class UploadCommand implements Command
 		}
 
 		com.sendMessage("Uploaded attachments.");
+	}
+
+	@Override
+	public String getDescription()
+	{
+		return "Uploads new images to the picture database.";
 	}
 }

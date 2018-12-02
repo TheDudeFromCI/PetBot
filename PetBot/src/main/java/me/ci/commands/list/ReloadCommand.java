@@ -1,9 +1,9 @@
 package me.ci.commands.list;
 
-import me.ci.commands.Command;
+import me.ci.commands.BasicCommandBase;
 import me.ci.commands.CommandEvent;
 
-public class ReloadCommand implements Command
+public class ReloadCommand extends BasicCommandBase
 {
 	@Override
 	public String getName()
@@ -16,5 +16,11 @@ public class ReloadCommand implements Command
 	{
 		com.sendMessage("Reloading PetBot.");
 		System.exit(0);
+	}
+
+	@Override
+	public String getDescription()
+	{
+		return "Reloads the bot and installs any available updates.";
 	}
 }

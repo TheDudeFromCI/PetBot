@@ -23,12 +23,41 @@ public class CommandHandler
 		for (Command c : _commands)
 			if (c.getName().equals(com.getCommand()))
 			{
-				System.out.println("  Running command.");
-
-				c.run(com);
+				findSubcommand:
+				for (Subcommand sub : c.getSubcommands())
+				{
+					if (com.getArguments().length != sub.getArgumentCount())
+						continue;
+					
+					for (int i = 0; i < sub.getArgumentCount(); i++)
+					{
+						if (sub.getArgumentFormat(i).equals("*"))
+							continue;
+						if (!sub.getArgumentFormat(i).equals(com.getArguments()[i]))
+							continue findSubcommand;
+					}
+					
+					sub.run(com);
+					return;
+				}
+				
+				StringBuilder sb = new StringBuilder();
+				sb.append("Unable to parse input parameters.\n");
+				sb.append("Available commands:\n```\n");
+				
+				for (Subcommand sub : c.getSubcommands())
+				{
+					sb.append(c.getName());
+					
+					for (int i = 0; i < sub.getArgumentCount(); i++)
+						sb.append(sub.getArgumentDisplay(i)).append(' ');
+					
+					sb.append("\n");
+				}
+				
+				sb.append("```");
 				return;
 			}
-		System.out.println("  Command not found.");
 		com.sendMessage("Command not found!");
 	}
 	
@@ -37,13 +66,9 @@ public class CommandHandler
 		if (e.getAuthor().isBot())
 			return;
 
-		System.out.println("Received message.");
-
 		Message message = e.getMessage();
 		String content = message.getContentRaw();
 
-		System.out.println("  Message: " + content);
-		
 		if (content.matches("[!][a-z]+.*"))
 		{
 			String[] args = content.split("[ ]");
@@ -55,8 +80,6 @@ public class CommandHandler
 			else
 				args = Arrays.copyOfRange(args, 1, args.length);
 
-			System.out.println("  Command: " + commandName);
-			
 			List<Attachment> attachments = message.getAttachments();
 			DiscordChannelBridge channel = new DiscordChannelBridge(e.getChannel(), attachments);
 

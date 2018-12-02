@@ -2,10 +2,10 @@ package me.ci.commands.list;
 
 import java.io.File;
 
-import me.ci.commands.Command;
+import me.ci.commands.BasicCommandBase;
 import me.ci.commands.CommandEvent;
 
-public class UpdateCommand implements Command
+public class UpdateCommand extends BasicCommandBase
 {
 	@Override
 	public String getName()
@@ -16,37 +16,29 @@ public class UpdateCommand implements Command
 	@Override
 	public void run(CommandEvent com)
 	{
-		if (com.getArguments().length == 0)
+		if (com.getAttachedFileCount() == 0)
 		{
-			if (com.getAttachedFileCount() == 0)
-			{
-				com.sendMessage("No files attached!");
-				return;
-			}
-
-			if (com.getAttachedFileCount() != 1)
-			{
-				com.sendMessage("Too mant files attached!");
-				return;
-			}
-			
-			String dir = System.getProperty("user.dir");
-			File directory = new File(dir);
-			File file = new File(directory, "petbot_new.jar");
-			com.downloadFile(file, 0);
-
-			com.sendMessage("Downloaded update. Please use\n```!reload\n```\n to apply changes.");
+			com.sendMessage("No files attached!");
 			return;
 		}
 
-		StringBuilder sb = new StringBuilder();
-		sb.append("Unable to parse input parameters.\n");
-		sb.append("Available commands:\n```\n");
+		if (com.getAttachedFileCount() != 1)
+		{
+			com.sendMessage("Too mant files attached!");
+			return;
+		}
 		
-		sb.append("!update\n (with file attachment)");
-		
-		sb.append("```");
-		
-		com.sendMessage(sb.toString());
+		String dir = System.getProperty("user.dir");
+		File directory = new File(dir);
+		File file = new File(directory, "petbot_new.jar");
+		com.downloadFile(file, 0);
+
+		com.sendMessage("Downloaded update. Please use\n```!reload\n```\n to apply changes.");
+	}
+
+	@Override
+	public String getDescription()
+	{
+		return "Uploads a new version of PetBot to the server update queue.";
 	}
 }
