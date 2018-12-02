@@ -91,6 +91,8 @@ public class CommandHandler
 			DiscordChannelBridge channel = new DiscordChannelBridge(e.getChannel(), attachments);
 
 			CommandEvent com = new CommandEvent(channel, commandName, args);
+			
+			message.delete().queue();
 			handle(com);
 		}
 	}
