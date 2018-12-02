@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.security.auth.login.LoginException;
 
@@ -34,6 +36,17 @@ public class Main
 		else
 			discord = new DiscordBridge();
 		
+		System.out.println("Scheduling server restart.");
+		new Timer().schedule(new TimerTask()
+				{
+					@Override
+					public void run()
+					{
+						System.exit(0);
+					}
+				}, 1000L * 60 * 30);
+
+		System.out.println("Connecting to Discord.");
 		EventHandler eventHandler = new EventHandler(commandHandler);
 		discord.connect(token, eventHandler);
 	}
