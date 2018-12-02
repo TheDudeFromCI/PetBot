@@ -75,7 +75,7 @@ public class CommandHandler
 		Message message = e.getMessage();
 		String content = message.getContentRaw();
 		
-		System.out.println(e.getAuthor().getName() + ": " + message);
+		System.out.println(e.getAuthor().getName() + ": " + content);
 
 		if (content.matches("[!][a-z]+.*"))
 		{
