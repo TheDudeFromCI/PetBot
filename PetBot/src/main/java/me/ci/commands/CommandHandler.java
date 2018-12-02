@@ -56,6 +56,7 @@ public class CommandHandler
 				}
 				
 				sb.append("```");
+				com.sendMessage(sb.toString());
 				return;
 			}
 		com.sendMessage("Command not found!");
