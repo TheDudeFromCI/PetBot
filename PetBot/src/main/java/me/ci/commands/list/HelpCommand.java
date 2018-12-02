@@ -85,6 +85,8 @@ public class HelpCommand implements Command, Subcommand
 				sb.append(sub.getArgumentDisplay(i)).append(' ');
 			
 			sb.append("\n");
+			
+			sb.append("  ").append(sub.getDescription()).append("\n");
 		}
 		
 		sb.append("```");
