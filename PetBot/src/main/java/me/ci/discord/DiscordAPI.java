@@ -1,4 +1,4 @@
-package me.ci;
+package me.ci.discord;
 
 import javax.security.auth.login.LoginException;
 

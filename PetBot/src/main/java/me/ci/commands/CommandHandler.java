@@ -3,8 +3,7 @@ package me.ci.commands;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import me.ci.DiscordBridge.DiscordChannelBridge;
+import me.ci.discord.DiscordBridge.DiscordChannelBridge;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.Message.Attachment;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;

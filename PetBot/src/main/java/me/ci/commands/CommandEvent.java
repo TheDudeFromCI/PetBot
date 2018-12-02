@@ -1,8 +1,7 @@
 package me.ci.commands;
 
 import java.io.File;
-
-import me.ci.DiscordBridge.DiscordChannelBridge;
+import me.ci.discord.DiscordBridge.DiscordChannelBridge;
 
 public class CommandEvent
 {

@@ -1,4 +1,4 @@
-package me.ci;
+package me.ci.discord;
 
 import java.io.File;
 import java.util.List;

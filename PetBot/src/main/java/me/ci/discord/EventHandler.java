@@ -1,4 +1,4 @@
-package me.ci;
+package me.ci.discord;
 
 import me.ci.commands.CommandHandler;
 import net.dv8tion.jda.core.events.DisconnectEvent;

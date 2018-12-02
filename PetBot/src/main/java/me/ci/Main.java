@@ -13,6 +13,9 @@ import me.ci.commands.list.ReloadCommand;
 import me.ci.commands.list.ShowMeCommand;
 import me.ci.commands.list.UpdateCommand;
 import me.ci.commands.list.UploadCommand;
+import me.ci.discord.DiscordAPI;
+import me.ci.discord.DiscordBridge;
+import me.ci.discord.EventHandler;
 
 public class Main
 {
