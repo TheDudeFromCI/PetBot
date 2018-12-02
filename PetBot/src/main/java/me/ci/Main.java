@@ -24,7 +24,6 @@ public class Main
 		commandHandler.registerCommand(new UpdateCommand());
 	
 		String token = getToken();
-		EventHandler eventHandler = new EventHandler(commandHandler);
 
 		DiscordAPI discord;
 		
@@ -33,6 +32,7 @@ public class Main
 		else
 			discord = new DiscordBridge();
 		
+		EventHandler eventHandler = new EventHandler(discord, commandHandler);
 		discord.connect(token, eventHandler);
 	}
 	

@@ -12,15 +12,26 @@ import net.dv8tion.jda.core.entities.Message.Attachment;
 
 public class DiscordBridge implements DiscordAPI
 {
+	private String _token;
+	private EventHandler _eventHandler;
 	@Override
 	public void connect(String token, EventHandler eventHandler) throws LoginException,
 		InterruptedException
 	{
+		_token = token;
+		_eventHandler = eventHandler;
+		
 		JDA jda = new JDABuilder(token)
 	            .addEventListener(eventHandler)
 	            .build();
 
         jda.awaitReady();
+	}
+
+	@Override
+	public void reconnect() throws LoginException, InterruptedException
+	{
+		connect(_token, _eventHandler);
 	}
 	
 	public static class DiscordChannelBridge implements DiscordChannel
@@ -61,4 +72,5 @@ public class DiscordBridge implements DiscordAPI
 			return _attachments.get(index).getFileName();
 		}
 	}
+
 }

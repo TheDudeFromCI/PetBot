@@ -6,4 +6,6 @@ public interface DiscordAPI
 {
 	public void connect(String token, EventHandler eventHandler) throws LoginException,
 		InterruptedException;
+
+	public void reconnect() throws LoginException, InterruptedException;
 }
