@@ -1,12 +1,7 @@
 package me.ci.commands;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import me.ci.discord.DiscordBridge.DiscordChannelBridge;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.Message.Attachment;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import me.ci.user.UserAction;
 
 public class CommandHandler
 {
@@ -17,26 +12,26 @@ public class CommandHandler
 		_commands.add(command);
 	}
 	
-	public void handle(CommandEvent com)
+	public void handle(UserAction action)
 	{
 		for (Command c : _commands)
-			if (c.getName().equals(com.getCommand()))
+			if (c.getName().equals(action.getCommandName()))
 			{
 				findSubcommand:
 				for (Subcommand sub : c.getSubcommands())
 				{
-					if (com.getArguments().length != sub.getArgumentCount())
+					if (action.getCommandArgs().length != sub.getArgumentCount())
 						continue;
 					
 					for (int i = 0; i < sub.getArgumentCount(); i++)
 					{
 						if (sub.getArgumentFormat(i).equals("*"))
 							continue;
-						if (!sub.getArgumentFormat(i).equals(com.getArguments()[i]))
+						if (!sub.getArgumentFormat(i).equals(action.getCommandArgs()[i]))
 							continue findSubcommand;
 					}
 					
-					sub.run(com);
+					sub.run(action);
 					return;
 				}
 				
@@ -55,45 +50,14 @@ public class CommandHandler
 				}
 				
 				sb.append("```");
-				com.sendMessage(sb.toString());
+				action.getUser().sendMessage(sb.toString());
 				return;
 			}
-		com.sendMessage("Command not found!");
+		action.getUser().sendMessage("Command not found!");
 	}
 	
 	public ArrayList<Command> getCommands()
 	{
 		return _commands;
-	}
-	
-	public void handle(MessageReceivedEvent e)
-	{
-		if (e.getAuthor().isBot())
-			return;
-
-		Message message = e.getMessage();
-		String content = message.getContentRaw();
-		
-		System.out.println(e.getAuthor().getName() + ": " + content);
-
-		if (content.matches("[!][a-z]+.*"))
-		{
-			String[] args = content.split("[ ]");
-			
-			String commandName = args[0];
-			
-			if (args.length == 1)
-				args = new String[0];
-			else
-				args = Arrays.copyOfRange(args, 1, args.length);
-
-			List<Attachment> attachments = message.getAttachments();
-			DiscordChannelBridge channel = new DiscordChannelBridge(e.getChannel(), attachments);
-
-			CommandEvent com = new CommandEvent(channel, commandName, args);
-			
-			message.delete().queue();
-			handle(com);
-		}
 	}
 }

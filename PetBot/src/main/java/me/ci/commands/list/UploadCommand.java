@@ -2,7 +2,7 @@ package me.ci.commands.list;
 
 import java.io.File;
 import me.ci.commands.BasicCommandBase;
-import me.ci.commands.CommandEvent;
+import me.ci.user.UserAction;
 
 public class UploadCommand extends BasicCommandBase
 {
@@ -13,37 +13,37 @@ public class UploadCommand extends BasicCommandBase
 	}
 
 	@Override
-	public void run(CommandEvent com)
+	public void run(UserAction com)
 	{
-		if (com.getAttachedFileCount() == 0)
+		if (com.getAttachments().size() == 0)
 		{
-			com.sendMessage("No images attached!");
+			com.getUser().sendMessage("No images attached!");
 			return;
 		}
 		
 		String dir = System.getProperty("user.dir");
 		File pictures = new File(dir, "pictures");
-		for (int i = 0; i < com.getAttachedFileCount(); i++)
+		for (int i = 0; i < com.getAttachments().size(); i++)
 		{
-			File file = new File(pictures, com.getAttachmentFileName(i));
+			File file = new File(pictures, com.getAttachments().get(i).getFileName());
 			
 			if (file.exists())
 			{
-				com.sendMessage("File " + com.getAttachmentFileName(i) + " already in database.");
+				com.getUser().sendMessage("File " + com.getAttachments().get(i).getFileName() + " already in database.");
 				continue;
 			}
 
 			try
 			{
-				com.downloadFile(file, i);
+				com.getAttachments().get(i).download(file);
 			}
 			catch(Exception exception)
 			{
-				com.sendError("Failed to upload image!", exception);
+				com.getUser().sendError("Failed to upload image!", exception);
 			}
 		}
 
-		com.sendMessage("Uploaded attachments.");
+		com.getUser().sendMessage("Uploaded attachments.");
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package me.ci.commands.list;
 
 import me.ci.commands.BasicCommandBase;
-import me.ci.commands.CommandEvent;
+import me.ci.user.UserAction;
 
 public class ReloadCommand extends BasicCommandBase
 {
@@ -12,9 +12,9 @@ public class ReloadCommand extends BasicCommandBase
 	}
 
 	@Override
-	public void run(CommandEvent com)
+	public void run(UserAction com)
 	{
-		com.sendMessage("Reloading PetBot.");
+		com.getUser().sendMessage("Reloading PetBot.");
 		System.exit(0);
 	}
 

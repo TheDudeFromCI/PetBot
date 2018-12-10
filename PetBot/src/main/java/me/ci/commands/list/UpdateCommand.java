@@ -3,7 +3,7 @@ package me.ci.commands.list;
 import java.io.File;
 
 import me.ci.commands.BasicCommandBase;
-import me.ci.commands.CommandEvent;
+import me.ci.user.UserAction;
 
 public class UpdateCommand extends BasicCommandBase
 {
@@ -14,26 +14,27 @@ public class UpdateCommand extends BasicCommandBase
 	}
 
 	@Override
-	public void run(CommandEvent com)
+	public void run(UserAction com)
 	{
-		if (com.getAttachedFileCount() == 0)
+		if (com.getAttachments().size() == 0)
 		{
-			com.sendMessage("No files attached!");
+			com.getUser().sendMessage("No files attached!");
 			return;
 		}
 
-		if (com.getAttachedFileCount() != 1)
+		if (com.getAttachments().size() != 1)
 		{
-			com.sendMessage("Too mant files attached!");
+			com.getUser().sendMessage("Too mant files attached!");
 			return;
 		}
 		
 		String dir = System.getProperty("user.dir");
 		File directory = new File(dir);
 		File file = new File(directory, "petbot_new.jar");
-		com.downloadFile(file, 0);
+		
+		com.getAttachments().get(0).download(file);
 
-		com.sendMessage("Downloaded update. Please use\n```!reload\n```\n to apply changes.");
+		com.getUser().sendMessage("Downloaded update. Please use\n```!reload\n```\n to apply changes.");
 	}
 
 	@Override

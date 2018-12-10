@@ -4,53 +4,41 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
-import javax.security.auth.login.LoginException;
 import me.ci.commands.CommandHandler;
 import me.ci.commands.list.HelpCommand;
 import me.ci.commands.list.ReloadCommand;
 import me.ci.commands.list.ShowMeCommand;
 import me.ci.commands.list.UpdateCommand;
 import me.ci.commands.list.UploadCommand;
-import me.ci.discord.DiscordAPI;
-import me.ci.discord.DiscordBridge;
-import me.ci.discord.EventHandler;
+import me.ci.user.DiscordInterface;
+import me.ci.user.UserInterface;
 
 public class Main
 {
-	public static void main(String[] args)
-			throws LoginException, InterruptedException, IOException
+	public static void main(String[] args) throws IOException
+	{
+		UserInterface ui = buildUserInterface(args);
+		ui.setCommandHandler(buildCommandHandler());
+		ui.init();
+	}
+	
+	private static CommandHandler buildCommandHandler()
 	{
 		CommandHandler commandHandler = new CommandHandler();
+
 		commandHandler.registerCommand(new ShowMeCommand());
 		commandHandler.registerCommand(new UploadCommand());
 		commandHandler.registerCommand(new ReloadCommand());
 		commandHandler.registerCommand(new UpdateCommand());
 		commandHandler.registerCommand(new HelpCommand(commandHandler));
-
+		
+		return commandHandler;
+	}
+	
+	private static UserInterface buildUserInterface(String[] args) throws IOException
+	{
 		String token = getToken();
-
-		DiscordAPI discord;
-
-		if (args.length > 0 && args[0].equals("noconnect"))
-			discord = null;
-		else
-			discord = new DiscordBridge();
-
-		System.out.println("Scheduling server restart.");
-		new Timer().schedule(new TimerTask()
-		{
-			@Override
-			public void run()
-			{
-				System.exit(0);
-			}
-		}, 1000L * 60 * 30);
-
-		System.out.println("Connecting to Discord.");
-		EventHandler eventHandler = new EventHandler(commandHandler);
-		discord.connect(token, eventHandler);
+		return new DiscordInterface(token);
 	}
 
 	private static String getToken() throws IOException

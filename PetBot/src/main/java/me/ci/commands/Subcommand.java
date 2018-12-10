@@ -1,5 +1,7 @@
 package me.ci.commands;
 
+import me.ci.user.UserAction;
+
 public interface Subcommand
 {
 	public int getArgumentCount();
@@ -10,5 +12,5 @@ public interface Subcommand
 	
 	public String getDescription();
 
-	public void run(CommandEvent com);
+	public void run(UserAction com);
 }

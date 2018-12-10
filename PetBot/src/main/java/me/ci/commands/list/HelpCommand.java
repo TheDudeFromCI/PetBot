@@ -1,9 +1,9 @@
 package me.ci.commands.list;
 
 import me.ci.commands.Command;
-import me.ci.commands.CommandEvent;
 import me.ci.commands.CommandHandler;
 import me.ci.commands.Subcommand;
+import me.ci.user.UserAction;
 
 public class HelpCommand implements Command
 {
@@ -57,7 +57,7 @@ public class HelpCommand implements Command
 		}
 
 		@Override
-		public void run(CommandEvent com)
+		public void run(UserAction com)
 		{
 			StringBuilder sb = new StringBuilder();
 			sb.append("Available commands:\n```\n");
@@ -67,7 +67,7 @@ public class HelpCommand implements Command
 			
 			sb.append("```");
 			
-			com.sendMessage(sb.toString());
+			com.getUser().sendMessage(sb.toString());
 		}
 	}
 
@@ -98,11 +98,11 @@ public class HelpCommand implements Command
 		}
 
 		@Override
-		public void run(CommandEvent com)
+		public void run(UserAction com)
 		{
 			Command command = null;
 
-			String commandName = com.getArguments()[0];
+			String commandName = com.getCommandArgs()[0];
 			for (Command c : _commandHandler.getCommands())
 			{
 				if (c.getName().substring(1).equals(commandName))
@@ -114,7 +114,7 @@ public class HelpCommand implements Command
 			
 			if (command == null)
 			{
-				com.sendMessage("Command not found!");
+				com.getUser().sendMessage("Command not found!");
 				return;
 			}
 			
@@ -134,7 +134,7 @@ public class HelpCommand implements Command
 			}
 			
 			sb.append("```");
-			com.sendMessage(sb.toString());
+			com.getUser().sendMessage(sb.toString());
 		}
 	}
 }

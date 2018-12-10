@@ -3,8 +3,8 @@ package me.ci.commands.list;
 import java.io.File;
 
 import me.ci.commands.Command;
-import me.ci.commands.CommandEvent;
 import me.ci.commands.Subcommand;
+import me.ci.user.UserAction;
 
 public class ShowMeCommand implements Command
 {
@@ -55,7 +55,7 @@ public class ShowMeCommand implements Command
 		}
 
 		@Override
-		public void run(CommandEvent com)
+		public void run(UserAction com)
 		{
 			String dir = System.getProperty("user.dir");
 			File imageFolder = new File(dir, "pictures");
@@ -65,8 +65,8 @@ public class ShowMeCommand implements Command
 			
 			System.out.println("Uploading file: " + files[randomIndex]);
 			
-			com.sendMessage("Here's a random animal picture for you!");
-			com.uploadFile(files[randomIndex]);
+			com.getUser().sendMessage("Here's a random animal picture for you!");
+			com.getUser().sendFile(files[randomIndex]);
 		}
 	}
 	
@@ -97,7 +97,7 @@ public class ShowMeCommand implements Command
 		}
 
 		@Override
-		public void run(CommandEvent com)
+		public void run(UserAction com)
 		{
 			String dir = System.getProperty("user.dir");
 			File imageFolder = new File(dir, "pictures");
@@ -113,7 +113,7 @@ public class ShowMeCommand implements Command
 			
 			sb.append("```");
 			
-			com.sendMessage(sb.toString());
+			com.getUser().sendMessage(sb.toString());
 		}
 		
 	}
@@ -145,24 +145,24 @@ public class ShowMeCommand implements Command
 		}
 
 		@Override
-		public void run(CommandEvent com)
+		public void run(UserAction com)
 		{
 			String dir = System.getProperty("user.dir");
 			File imageFolder = new File(dir, "pictures");
 			File[] files = imageFolder.listFiles();
-			String toShow = com.getArguments()[0];
+			String toShow = com.getCommandArgs()[0];
 			
 			for (int i = 0; i < files.length; i++)
 			{
 				if (files[i].getName().equals(toShow))
 				{
-					com.sendMessage("Here you go!");
-					com.uploadFile(files[i]);
+					com.getUser().sendMessage("Here you go!");
+					com.getUser().sendFile(files[i]);
 					return;
 				}
 			}
 
-			com.sendMessage("Image not found!");
+			com.getUser().sendMessage("Image not found!");
 		}
 		
 	}
@@ -198,12 +198,12 @@ public class ShowMeCommand implements Command
 		}
 
 		@Override
-		public void run(CommandEvent com)
+		public void run(UserAction com)
 		{
 			String dir = System.getProperty("user.dir");
 			File imageFolder = new File(dir, "pictures");
 			File[] files = imageFolder.listFiles();
-			String toDelete = com.getArguments()[1];
+			String toDelete = com.getCommandArgs()[1];
 			
 			for (int i = 0; i < files.length; i++)
 			{
@@ -211,12 +211,12 @@ public class ShowMeCommand implements Command
 				{
 					files[i].delete();
 					
-					com.sendMessage("Image removed from database.");
+					com.getUser().sendMessage("Image removed from database.");
 					return;
 				}
 			}
 			
-			com.sendMessage("Image not found!");
+			com.getUser().sendMessage("Image not found!");
 		}
 	}
 	
@@ -253,13 +253,13 @@ public class ShowMeCommand implements Command
 		}
 
 		@Override
-		public void run(CommandEvent com)
+		public void run(UserAction com)
 		{
 			String dir = System.getProperty("user.dir");
 			File imageFolder = new File(dir, "pictures");
 			File[] files = imageFolder.listFiles();
-			String toRename = com.getArguments()[1];
-			String name = com.getArguments()[2];
+			String toRename = com.getCommandArgs()[1];
+			String name = com.getCommandArgs()[2];
 			
 			for (int i = 0; i < files.length; i++)
 			{
@@ -268,12 +268,12 @@ public class ShowMeCommand implements Command
 					File newName = new File(files[i].getParentFile(), name);
 					files[i].renameTo(newName);
 					
-					com.sendMessage("Image has been renamed.");
+					com.getUser().sendMessage("Image has been renamed.");
 					return;
 				}
 			}
 			
-			com.sendMessage("Image not found!");
+			com.getUser().sendMessage("Image not found!");
 		}
 	}
 }

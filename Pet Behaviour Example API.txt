@@ -1,0 +1,35 @@
+Pet Behaviour Example API
+=========================
+
+public void creatingAPet()
+{
+	VirtualPets virtualPets = VirtalPets.getDefaultInstance();
+
+	VPet snoopy = virtualPets.createNewInstance("Snoopy");
+	MoodState mood = snoopy.getMoodState();
+
+	mood.setHappinessAffinity(1.4f);
+	mood.setSadnessAffinity(0.5f);
+	mood.setAngerAffinity(0.3f);
+
+	mood.addHappiness(10f);
+
+	float happiness = mood.getHappiness();
+	Log.infof("Snoopy's happiness is at %s.", happiness);
+}
+
+public void samplingAPetsState()
+{
+	VirtualPets virtualPets = VirtalPets.getDefaultInstance();
+
+	VPet snoopy = virtualPets.getPetByName("Snoopy");
+	ActionState action = snoopy.getActionState();
+
+	if (!action.isBusy())
+	{
+		PlayAction playFetch = new PlayBall();
+		action.attemptPlay(playFetch);
+	}
+	else
+		Log.info("Snoopy is currently busy.");
+}
