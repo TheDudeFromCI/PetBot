@@ -1,6 +1,7 @@
 package me.ci.user;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import me.ci.commands.PetBotModule;
 import net.dv8tion.jda.core.entities.Message.Attachment;
@@ -12,7 +13,7 @@ public class DiscordUser implements User
 	private ShellEnvironment shell;
 	private String name;
 	private MessageChannel lastChannel;
-	private List<Attachment> attachments;
+	private List<Attachment> attachments = new ArrayList<>();
 	private StringBuilder messageBuf = new StringBuilder();
 
 	public DiscordUser(net.dv8tion.jda.core.entities.User author, MessageChannel channel)
@@ -58,7 +59,9 @@ public class DiscordUser implements User
 
 	public void setAttachments(List<Attachment> attachments)
 	{
-		this.attachments = attachments;
+		this.attachments.clear();
+		for (Attachment a : attachments)
+			this.attachments.add(a);
 	}
 
 	@Override
