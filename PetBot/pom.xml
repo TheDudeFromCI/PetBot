@@ -9,8 +9,7 @@
 	<description>A bot that hosts the information for different digital pets and interactions with those bots.</description>
 
 	<properties>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<repositories>
@@ -20,7 +19,48 @@
 			<url>http://jcenter.bintray.com</url>
 		</repository>
 	</repositories>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.1.2</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>me.ci.Main</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+		
+			<plugin>
+		        <groupId>org.codehaus.mojo</groupId>
+       			<artifactId>appassembler-maven-plugin</artifactId>
+        		<version>1.10</version>
+        		<configuration>
+          			<programs>
+            			<program>
+              				<mainClass>me.ci.Main</mainClass>
+              				<id>app</id>
+            			</program>
+          			</programs>
+        		</configuration>
+      		</plugin>
+		</plugins>
+	</build>
+	
 	<dependencies>
 		<dependency>
 			<groupId>net.dv8tion</groupId>
@@ -28,14 +68,9 @@
 			<version>3.8.1_437</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-api</artifactId>
-			<version>2.11.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>2.11.1</version>
+			<groupId>net.whg.awgen-shell</groupId>
+			<artifactId>AwgenShell</artifactId>
+			<version>1.2.0</version>
 		</dependency>
 	</dependencies>
 </project>

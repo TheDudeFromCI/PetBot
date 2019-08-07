@@ -1,11 +1,8 @@
 package me.ci.user;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import me.ci.commands.CommandHandler;
-import me.ci.commands.CommandUtils;
-import me.ci.commands.ParsedCommand;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Game;
@@ -18,12 +15,15 @@ import net.dv8tion.jda.core.hooks.EventListener;
 
 public class DiscordInterface implements UserInterface, EventListener
 {
+	private Object LOCK = new Object();
+
+	private HashMap<String, User> users = new HashMap<>();
+
 	private String _token;
 	private boolean _connected;
-	private CommandHandler _commandHandler;
 	private MessageChannel _activeChannel;
 	private JDA _jda;
-	
+
 	public DiscordInterface(String token)
 	{
 		_token = token;
@@ -50,7 +50,7 @@ public class DiscordInterface implements UserInterface, EventListener
 			System.err.println(text);
 			return;
 		}
-		
+
 		_activeChannel.sendMessage(text).queue();
 	}
 
@@ -63,7 +63,7 @@ public class DiscordInterface implements UserInterface, EventListener
 			System.err.println(file.getName());
 			return;
 		}
-		
+
 		_activeChannel.sendFile(file).queue();
 	}
 
@@ -78,34 +78,12 @@ public class DiscordInterface implements UserInterface, EventListener
 	{
 		_activeChannel = null;
 		_connected = false;
-		
+
 		if (_jda != null)
 		{
 			_jda.shutdown();
 			_jda = null;
 		}
-	}
-	
-	public void sendError(String message, Throwable error)
-	{
-		StringBuilder sb = new StringBuilder();
-		sb.append(message).append("\n");
-		sb.append("```\n");
-		
-		sb.append("Error: ").append(error.getMessage()).append("\n");
-		
-		for (StackTraceElement e : error.getStackTrace())
-			sb.append("  at ").append(e.getFileName()).append(".").append(e.getMethodName())
-			.append("(line ").append(e.getLineNumber()).append(")\n");
-		
-		sb.append("```");
-		sendMessage(sb.toString());
-	}
-
-	@Override
-	public void setCommandHandler(CommandHandler commandHandler)
-	{
-		_commandHandler = commandHandler;
 	}
 
 	@Override
@@ -114,31 +92,39 @@ public class DiscordInterface implements UserInterface, EventListener
 		if (!_connected)
 			return;
 
-		if (_commandHandler == null)
-			return;
-
 		if (event instanceof MessageReceivedEvent)
 		{
 			MessageReceivedEvent e = (MessageReceivedEvent) event;
-			
+
 			if (e.getAuthor().isBot())
 				return;
 
-			Message message = e.getMessage();
-			String content = message.getContentRaw();
-			String authorName = e.getAuthor().getName();
-			
-			System.out.println(authorName + ": " + content);
-			
-			ParsedCommand command = CommandUtils.parseCommand(content);
-			if (command == null)
-				return;
+			synchronized (LOCK)
+			{
+				Message message = e.getMessage();
+				String content = message.getContentRaw();
+				String authorName = e.getAuthor().getName();
 
-			User user = new User(e.getAuthor(), e.getChannel());
-			ArrayList<FileUpload> attachments = new ArrayList<>();
+				System.out.println(authorName + ": " + content);
 
-			UserAction action = new UserAction(command, user, attachments);
-			_commandHandler.handle(action);
+				User user;
+				if (users.containsKey(authorName))
+					user = users.get(authorName);
+				else
+				{
+					user = new User(e.getAuthor(), e.getChannel());
+					users.put(authorName, user);
+				}
+
+				user.setChannel(e.getChannel());
+
+				if (content.startsWith("\\"))
+				{
+					user.setAttachments(message.getAttachments());
+					user.runCommand(content.substring(1));
+					user.setAttachments(null);
+				}
+			}
 		}
 	}
 
@@ -147,17 +133,14 @@ public class DiscordInterface implements UserInterface, EventListener
 		JDA jda;
 		try
 		{
-			jda = new JDABuilder(_token)
-					.addEventListener(this)
-					.setAutoReconnect(true)
-					.setGame(Game.watching("your every move"))
-					.build();
+			jda = new JDABuilder(_token).addEventListener(this).setAutoReconnect(true)
+					.setGame(Game.watching("your every move")).build();
 			jda.awaitReady();
 			_connected = true;
-			
+
 			List<TextChannel> channels = jda.getTextChannelsByName("general", true);
 			_activeChannel = channels.isEmpty() ? null : channels.get(0);
-			
+
 			if (_activeChannel == null)
 				System.err.println("Failed to find main channel!");
 		}
