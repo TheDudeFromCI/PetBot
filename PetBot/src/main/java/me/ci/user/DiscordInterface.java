@@ -3,6 +3,7 @@ package me.ci.user;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
+import me.ci.Main;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Game;
@@ -16,9 +17,7 @@ import net.whg.awgenshell.parse.CommandParseException;
 
 public class DiscordInterface implements UserInterface, EventListener
 {
-	private Object LOCK = new Object();
-
-	private HashMap<String, User> users = new HashMap<>();
+	private HashMap<String, DiscordUser> users = new HashMap<>();
 
 	private String _token;
 	private boolean _connected;
@@ -100,34 +99,32 @@ public class DiscordInterface implements UserInterface, EventListener
 			if (e.getAuthor().isBot())
 				return;
 
-			synchronized (LOCK)
+			Message message = e.getMessage();
+			String content = message.getContentRaw();
+			String authorName = e.getAuthor().getName();
+
+			System.out.println(authorName + ": " + content);
+
+			if (content.startsWith("```") && content.endsWith("```"))
+				content = content.substring(3, content.length() - 3);
+
+			if (content.startsWith("\\"))
 			{
-				Message message = e.getMessage();
-				String content = message.getContentRaw();
-				String authorName = e.getAuthor().getName();
-
-				System.out.println(authorName + ": " + content);
-
-				User user;
-				if (users.containsKey(authorName))
-					user = users.get(authorName);
-				else
+				synchronized (Main.LOCK)
 				{
-					user = new User(e.getAuthor(), e.getChannel());
-					users.put(authorName, user);
-				}
-
-				user.setChannel(e.getChannel());
-
-				if (content.startsWith("```") && content.endsWith("```"))
-					content = content.substring(3, content.length() - 3);
-
-				if (content.startsWith("\\"))
-				{
-					user.setAttachments(message.getAttachments());
+					DiscordUser user;
+					if (users.containsKey(authorName))
+						user = users.get(authorName);
+					else
+					{
+						user = new DiscordUser(e.getAuthor(), e.getChannel());
+						users.put(authorName, user);
+					}
 
 					try
 					{
+						user.setChannel(e.getChannel());
+						user.setAttachments(message.getAttachments());
 						user.runCommand(content.substring(1));
 					}
 					catch (CommandParseException ex)
@@ -136,11 +133,13 @@ public class DiscordInterface implements UserInterface, EventListener
 					}
 					catch (Exception ex)
 					{
-						user.sendError("An error has occured while running this command!", ex);
+						user.printError("An error has occured while running this command!", ex);
 					}
-
-					user.flushMessages();
-					user.setAttachments(null);
+					finally
+					{
+						user.flushMessages();
+						user.getAttachments().clear();
+					}
 				}
 			}
 		}

@@ -59,7 +59,7 @@ public class UploadCommand implements CommandHandler
 			}
 			catch (Exception exception)
 			{
-				user.sendError("Failed to upload image!", exception);
+				user.printError("Failed to upload image!", exception);
 			}
 		}
 

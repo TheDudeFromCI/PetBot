@@ -2,102 +2,16 @@ package me.ci.user;
 
 import java.io.File;
 import java.util.List;
-import me.ci.commands.PetBotModule;
 import net.dv8tion.jda.core.entities.Message.Attachment;
-import net.dv8tion.jda.core.entities.MessageChannel;
 import net.whg.awgenshell.exec.CommandSender;
-import net.whg.awgenshell.exec.ShellEnvironment;
 
-public class User implements CommandSender
+public interface User extends CommandSender
 {
-	private ShellEnvironment shell;
-	private String name;
-	private String id;
-	private String mention;
-	private MessageChannel lastChannel;
-	private List<Attachment> attachments;
-	private StringBuilder messageBuf = new StringBuilder();
+	void printImage(File file);
 
-	public User(net.dv8tion.jda.core.entities.User author, MessageChannel channel)
-	{
-		name = author.getName();
-		id = author.getId();
-		mention = author.getAsMention();
-		lastChannel = channel;
+	void printError(String message, Throwable error);
 
-		shell = new ShellEnvironment(this);
-		shell.loadModule(PetBotModule.load());
-	}
+	void runCommand(String cmd);
 
-	@Override
-	public String getName()
-	{
-		return name;
-	}
-
-	public String getID()
-	{
-		return id;
-	}
-
-	public String getMentionTag()
-	{
-		return mention;
-	}
-
-	public void flushMessages()
-	{
-		if (messageBuf.length() == 0)
-			return;
-
-		lastChannel.sendMessage(messageBuf.toString()).queue();
-		messageBuf.setLength(0);
-	}
-
-	public void sendFile(File file)
-	{
-		lastChannel.sendFile(file).queue();
-	}
-
-	public void sendError(String message, Throwable error)
-	{
-		StringBuilder sb = new StringBuilder();
-		sb.append(message).append("\n");
-		sb.append("```\n");
-
-		sb.append("Error: ").append(error.getMessage()).append("\n");
-
-		for (StackTraceElement e : error.getStackTrace())
-			sb.append("  at ").append(e.getFileName()).append(".").append(e.getMethodName()).append("(line ")
-					.append(e.getLineNumber()).append(")\n");
-
-		sb.append("```");
-		println(sb.toString());
-	}
-
-	@Override
-	public void println(String message)
-	{
-		messageBuf.append(message).append('\n');
-	}
-
-	public void runCommand(String command)
-	{
-		shell.runCommandNoisy(command);
-	}
-
-	public void setChannel(MessageChannel channel)
-	{
-		lastChannel = channel;
-	}
-
-	public void setAttachments(List<Attachment> attachments)
-	{
-		this.attachments = attachments;
-	}
-
-	public List<Attachment> getAttachments()
-	{
-		return attachments;
-	}
+	List<Attachment> getAttachments();
 }
