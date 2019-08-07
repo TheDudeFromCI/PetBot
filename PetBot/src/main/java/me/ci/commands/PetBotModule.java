@@ -9,6 +9,7 @@ public class PetBotModule
 		Module mod = new Module();
 
 		mod.loadCommand(new ShowMeCommand());
+		mod.loadCommand(new RestartCommand());
 		mod.loadCommand(new UploadCommand());
 
 		return mod;
