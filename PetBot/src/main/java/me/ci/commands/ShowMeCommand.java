@@ -28,17 +28,15 @@ public class ShowMeCommand implements CommandHandler
 
 			if (files.length == 0)
 			{
-				user.sendMessage("No files in database! :cryingchicken:");
+				user.println("No files in database! :cryingchicken:");
 				return CommandResult.ERROR;
 			}
 
 			int randomIndex = (int) (Math.random() * files.length);
 			System.out.println("Uploading file: " + files[randomIndex]);
 
-			user.sendMessage("Here's a random animal picture for you! :happychicken:");
 			user.sendFile(files[randomIndex]);
-
-			return CommandResult.SUCCESS;
+			return new CommandResult(files[randomIndex].getName(), true, true);
 		}
 
 		String sub = args[0].getValue();
@@ -47,7 +45,7 @@ public class ShowMeCommand implements CommandHandler
 		{
 			if (args.length != 1)
 			{
-				user.sendMessage("Unknown number of arguments!");
+				user.println("Unknown number of arguments!");
 				return CommandResult.ERROR;
 			}
 
@@ -57,20 +55,19 @@ public class ShowMeCommand implements CommandHandler
 			sb.append("Currently uploaded files:");
 			sb.append(" (").append(files.length).append(")");
 			sb.append("\n```");
+
 			for (File file : files)
 				sb.append(file.getName()).append("\n");
 			sb.append("```");
 
-			user.sendMessage(sb.toString());
-
-			return CommandResult.SUCCESS;
+			return new CommandResult(sb.toString(), true, false);
 		}
 
 		if (sub.equals("remove"))
 		{
 			if (args.length != 2)
 			{
-				user.sendMessage("Unknown number of arguments!");
+				user.println("Unknown number of arguments!");
 				return CommandResult.ERROR;
 			}
 
@@ -82,12 +79,12 @@ public class ShowMeCommand implements CommandHandler
 				if (file.getName().equals(toDelete))
 				{
 					file.delete();
-					user.sendMessage("Image removed from database.");
+					user.println("Image removed from database.");
 					return CommandResult.SUCCESS;
 				}
 			}
 
-			user.sendMessage("Image not found!");
+			user.println("Image not found!");
 			return CommandResult.ERROR;
 		}
 
@@ -95,7 +92,7 @@ public class ShowMeCommand implements CommandHandler
 		{
 			if (args.length != 3)
 			{
-				user.sendMessage("Unknown number of arguments!");
+				user.println("Unknown number of arguments!");
 				return CommandResult.ERROR;
 			}
 
@@ -110,18 +107,18 @@ public class ShowMeCommand implements CommandHandler
 					File newName = new File(file.getParentFile(), name);
 					file.renameTo(newName);
 
-					user.sendMessage("Image has been renamed.");
+					user.println("Image has been renamed.");
 					return CommandResult.SUCCESS;
 				}
 			}
 
-			user.sendMessage("Image not found!");
+			user.println("Image not found!");
 			return CommandResult.ERROR;
 		}
 
 		if (args.length != 1)
 		{
-			user.sendMessage("Unknown subcommand!");
+			user.println("Unknown subcommand!");
 			return CommandResult.ERROR;
 		}
 
@@ -132,13 +129,12 @@ public class ShowMeCommand implements CommandHandler
 		{
 			if (file.getName().equals(toShow))
 			{
-				user.sendMessage("Here you go!");
 				user.sendFile(file);
 				return CommandResult.SUCCESS;
 			}
 		}
 
-		user.sendMessage("Image not found!");
+		user.println("Image not found!");
 		return CommandResult.ERROR;
 	}
 

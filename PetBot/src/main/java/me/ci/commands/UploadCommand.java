@@ -26,7 +26,7 @@ public class UploadCommand implements CommandHandler
 
 		if (args.length != 0)
 		{
-			user.sendMessage("Unknown number of arguments!");
+			user.println("Unknown number of arguments!");
 			return CommandResult.ERROR;
 		}
 
@@ -34,25 +34,28 @@ public class UploadCommand implements CommandHandler
 
 		if (att.size() == 0)
 		{
-			user.sendMessage("No images attached!");
+			user.println("No images attached!");
 			return CommandResult.ERROR;
 		}
 
 		String dir = System.getProperty("user.dir");
 		File pictures = new File(dir, "pictures");
 
+		StringBuilder sb = new StringBuilder();
+
 		for (int i = 0; i < att.size(); i++)
 		{
 			File file = new File(pictures, att.get(i).getFileName());
 			if (file.exists())
 			{
-				user.sendMessage("File " + att.get(i).getFileName() + " already in database.");
+				user.println("File " + att.get(i).getFileName() + " already in database.");
 				continue;
 			}
 
 			try
 			{
 				att.get(i).download(file);
+				sb.append(file.getName()).append('\n');
 			}
 			catch (Exception exception)
 			{
@@ -60,8 +63,8 @@ public class UploadCommand implements CommandHandler
 			}
 		}
 
-		user.sendMessage("Uploaded attachments.");
-		return CommandResult.SUCCESS;
+		user.println("Uploaded attachments.");
+		return new CommandResult(sb.toString(), true, true);
 	}
 
 	@Override

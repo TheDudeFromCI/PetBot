@@ -12,6 +12,7 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.EventListener;
+import net.whg.awgenshell.parse.CommandParseException;
 
 public class DiscordInterface implements UserInterface, EventListener
 {
@@ -118,10 +119,27 @@ public class DiscordInterface implements UserInterface, EventListener
 
 				user.setChannel(e.getChannel());
 
+				if (content.startsWith("```") && content.endsWith("```"))
+					content = content.substring(3, content.length() - 3);
+
 				if (content.startsWith("\\"))
 				{
 					user.setAttachments(message.getAttachments());
-					user.runCommand(content.substring(1));
+
+					try
+					{
+						user.runCommand(content.substring(1));
+					}
+					catch (CommandParseException ex)
+					{
+						user.println("Failed to parse command: " + ex.getMessage());
+					}
+					catch (Exception ex)
+					{
+						user.sendError("An error has occured while running this command!", ex);
+					}
+
+					user.flushMessages();
 					user.setAttachments(null);
 				}
 			}

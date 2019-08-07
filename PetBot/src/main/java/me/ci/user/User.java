@@ -16,6 +16,7 @@ public class User implements CommandSender
 	private String mention;
 	private MessageChannel lastChannel;
 	private List<Attachment> attachments;
+	private StringBuilder messageBuf = new StringBuilder();
 
 	public User(net.dv8tion.jda.core.entities.User author, MessageChannel channel)
 	{
@@ -44,9 +45,13 @@ public class User implements CommandSender
 		return mention;
 	}
 
-	public void sendMessage(String text)
+	public void flushMessages()
 	{
-		lastChannel.sendMessage(text).queue();
+		if (messageBuf.length() == 0)
+			return;
+
+		lastChannel.sendMessage(messageBuf.toString()).queue();
+		messageBuf.setLength(0);
 	}
 
 	public void sendFile(File file)
@@ -67,18 +72,18 @@ public class User implements CommandSender
 					.append(e.getLineNumber()).append(")\n");
 
 		sb.append("```");
-		sendMessage(sb.toString());
+		println(sb.toString());
 	}
 
 	@Override
 	public void println(String message)
 	{
-		sendMessage(message);
+		messageBuf.append(message).append('\n');
 	}
 
-	public void runCommand(String command)
+	public boolean runCommand(String command)
 	{
-		shell.runCommand(command);
+		return shell.runCommand(command);
 	}
 
 	public void setChannel(MessageChannel channel)
