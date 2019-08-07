@@ -8,7 +8,7 @@ import net.whg.awgenshell.util.CommandResult;
 
 public class RestartCommand implements CommandHandler
 {
-	private static final String[] ALIASES = {"reboot"};
+	private static final String[] ALIASES = {"reboot", "shutdown"};
 
 	@Override
 	public String getName()

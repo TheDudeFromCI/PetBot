@@ -81,9 +81,9 @@ public class User implements CommandSender
 		messageBuf.append(message).append('\n');
 	}
 
-	public boolean runCommand(String command)
+	public void runCommand(String command)
 	{
-		return shell.runCommand(command);
+		shell.runCommandNoisy(command);
 	}
 
 	public void setChannel(MessageChannel channel)
