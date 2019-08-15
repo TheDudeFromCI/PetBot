@@ -14,4 +14,6 @@ public interface User extends CommandSender
 	void runCommand(String cmd);
 
 	List<Attachment> getAttachments();
+
+	String getEmoji(String name);
 }

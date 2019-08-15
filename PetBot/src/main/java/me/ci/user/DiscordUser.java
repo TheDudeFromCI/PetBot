@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import me.ci.commands.PetBotModule;
+import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.Message.Attachment;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.whg.awgenshell.exec.ShellEnvironment;
@@ -44,6 +45,9 @@ public class DiscordUser implements User
 	public void println(String message)
 	{
 		messageBuf.append(message).append('\n');
+
+		if (messageBuf.length() > 1000)
+			flushMessages();
 	}
 
 	@Override
@@ -91,5 +95,16 @@ public class DiscordUser implements User
 
 		sb.append("```");
 		println(sb.toString());
+	}
+
+	@Override
+	public String getEmoji(String name)
+	{
+		List<Emote> emotes = lastChannel.getJDA().getEmotesByName(name, true);
+
+		if (emotes.isEmpty())
+			return null;
+
+		return emotes.get(0).getAsMention();
 	}
 }

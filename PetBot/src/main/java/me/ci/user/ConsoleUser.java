@@ -53,4 +53,10 @@ public class ConsoleUser implements User
 	{
 		return attachments;
 	}
+
+	@Override
+	public String getEmoji(String name)
+	{
+		return ":" + name + ":";
+	}
 }

@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import me.ci.Main;
+import me.ci.keywords.KeywordList;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Game;
@@ -23,10 +24,12 @@ public class DiscordInterface implements UserInterface, EventListener
 	private boolean _connected;
 	private MessageChannel _activeChannel;
 	private JDA _jda;
+	private KeywordList keywords;
 
 	public DiscordInterface(String token)
 	{
 		_token = token;
+		keywords = new KeywordList();
 	}
 
 	@Override
@@ -108,38 +111,39 @@ public class DiscordInterface implements UserInterface, EventListener
 			if (content.startsWith("```") && content.endsWith("```"))
 				content = content.substring(3, content.length() - 3);
 
-			if (content.startsWith("\\"))
+			synchronized (Main.LOCK)
 			{
-				synchronized (Main.LOCK)
+				DiscordUser user;
+				if (users.containsKey(authorName))
+					user = users.get(authorName);
+				else
 				{
-					DiscordUser user;
-					if (users.containsKey(authorName))
-						user = users.get(authorName);
-					else
-					{
-						user = new DiscordUser(e.getAuthor(), e.getChannel());
-						users.put(authorName, user);
-					}
+					user = new DiscordUser(e.getAuthor(), e.getChannel());
+					users.put(authorName, user);
+				}
 
-					try
-					{
-						user.setChannel(e.getChannel());
-						user.setAttachments(message.getAttachments());
+				user.setChannel(e.getChannel());
+				user.setAttachments(message.getAttachments());
+
+				try
+				{
+					if (content.startsWith("\\"))
 						user.runCommand(content.substring(1));
-					}
-					catch (CommandParseException ex)
-					{
-						user.println("Failed to parse command: " + ex.getMessage());
-					}
-					catch (Exception ex)
-					{
-						user.printError("An error has occured while running this command!", ex);
-					}
-					finally
-					{
-						user.flushMessages();
-						user.getAttachments().clear();
-					}
+					else
+						keywords.checkForKeywords(user, content);
+				}
+				catch (CommandParseException ex)
+				{
+					user.println("Failed to parse command: " + ex.getMessage());
+				}
+				catch (Exception ex)
+				{
+					user.printError("An error has occured while running this command!", ex);
+				}
+				finally
+				{
+					user.flushMessages();
+					user.getAttachments().clear();
 				}
 			}
 		}
